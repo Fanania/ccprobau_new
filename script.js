@@ -370,7 +370,8 @@
    secțiunea se ascunde automat. */
 const VIDEOS = [
     {
-        src: "meta/VIDEO-2026-09-03-15-33-13.mp4",
+  /*      src: "meta/VIDEO-2026-09-03-15-33-13.mp4", */
+        src: "meta/new_data/dd30fc3b-8e5d-49b8-87a5-ff2dd173151c.mov",
         poster: "meta/posters/video1.jpg",
         title: "Finisaje interioare",
         desc: "Gletuire și pregătire pereți - apartament, Iași."
