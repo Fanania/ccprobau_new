@@ -407,7 +407,7 @@ const VIDEOS = [
         desc: "Colțare, profile și racorduri executate curat."
     },
     {
-        src: "meta/VIDEO-2026-09-03-15-33-58.mp4",
+        src: "meta/new_data/904c9639-8d82-4eec-8d1d-b504fec427e6.mov",
         poster: "meta/posters/video7.jpg",
         title: "Proiect finalizat",
         desc: "Livrare la cheie — spațiu rezidențial."
