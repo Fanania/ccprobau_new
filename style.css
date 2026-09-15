@@ -2245,6 +2245,145 @@ body.is-scrolled .logo img { height: 34px; }
     color: #FCA5A5;
 }
 
+/* — Mascotă flotantă — */
+
+.mascot-float {
+    position: fixed;
+    left: clamp(1rem, 3vw, 1.8rem);
+    bottom: clamp(1rem, 3vw, 1.8rem);
+    z-index: 88;
+    display: flex;
+    align-items: flex-end;
+    gap: var(--s-2);
+    opacity: 0;
+    transform: translateY(20px) scale(.9);
+    transition: opacity var(--t-slow) var(--ease),
+                transform var(--t-slow) var(--ease);
+}
+
+.mascot-float.is-shown {
+    opacity: 1;
+    transform: none;
+}
+
+.mascot-float__char {
+    position: relative;
+    width: clamp(72px, 9vw, 96px);
+    padding: 0;
+    flex-shrink: 0;
+    animation: mascotFloat 4.5s var(--ease-in-out) infinite;
+    transition: transform var(--t) var(--ease);
+}
+
+.mascot-float__char img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 8px 14px rgba(8, 11, 15, .28));
+}
+
+.mascot-float__char:hover { transform: scale(1.07) rotate(-3deg); }
+
+/* Bula de dialog */
+.mascot-float__bubble {
+    position: relative;
+    max-width: 210px;
+    margin-bottom: 1.6rem;
+    padding: var(--s-4) var(--s-5);
+    border: 1px solid var(--ink-100);
+    border-radius: var(--r-md) var(--r-md) var(--r-md) 4px;
+    background: var(--white);
+    box-shadow: var(--sh-3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px) scale(.94);
+    transform-origin: bottom left;
+    transition: opacity var(--t) var(--ease),
+                visibility var(--t),
+                transform var(--t) var(--ease);
+}
+
+.mascot-float__bubble.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+}
+
+/* Codița bulei */
+.mascot-float__bubble::after {
+    position: absolute;
+    right: -7px;
+    bottom: 14px;
+    width: 14px;
+    height: 14px;
+    border-right: 1px solid var(--ink-100);
+    border-bottom: 1px solid var(--ink-100);
+    background: var(--white);
+    content: "";
+    transform: rotate(-45deg);
+}
+
+.mascot-float__bubble p {
+    margin-bottom: var(--s-3);
+    color: var(--ink-800);
+    font-family: var(--font-display);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.mascot-float__cta {
+    display: inline-block;
+    padding: .42rem 1rem;
+    border-radius: var(--r-full);
+    background: var(--accent);
+    color: var(--ink-900);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    transition: background-color var(--t) ease;
+}
+
+.mascot-float__cta:hover { background: var(--accent-300); }
+
+/* Buton de închidere */
+.mascot-float__close {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border: 1px solid var(--ink-200);
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--ink-500);
+    font-size: 14px;
+    line-height: 1;
+    box-shadow: var(--sh-1);
+    opacity: 0;
+    transition: opacity var(--t) ease, background-color var(--t) ease;
+}
+
+.mascot-float:hover .mascot-float__close,
+.mascot-float:focus-within .mascot-float__close { opacity: 1; }
+
+.mascot-float__close:hover {
+    background: var(--danger);
+    color: var(--white);
+    border-color: var(--danger);
+}
+
+@media (max-width: 640px) {
+    .mascot-float { left: var(--s-3); bottom: var(--s-3); }
+    .mascot-float__char { width: 62px; }
+    .mascot-float__bubble { max-width: 165px; padding: var(--s-3) var(--s-4); }
+}
+
+/* Sub 380px se ascunde — nu mai e loc */
+@media (max-width: 379px) {
+    .mascot-float { display: none; }
+}
 
 /* ═══ 13. FOOTER & FLOTANTE ═══════════════════════════════ */
 
