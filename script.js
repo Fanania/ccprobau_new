@@ -373,28 +373,28 @@ const VIDEOS = [
         src: "meta/VIDEO-2026-09-03-15-33-13.mp4",
         poster: "meta/posters/video1.jpg",
         title: "Finisaje interioare",
-        desc: "Gletuire și pregătire pereți — apartament, Iași."
+        desc: "Gletuire și pregătire pereți - apartament, Iași."
     },
     {
-        src: "meta/VIDEO-2026-09-03-15-33-13.mp4",
+        src: "meta/VIDEO-2026-09-03-15-33-57 2.mp4",
         poster: "meta/posters/video2.jpg",
         title: "Profesionalism garantat de o echipa serioasa",
         desc: "Echipa cu ani de experienta."
     },
     {
-        src: "meta/VIDEO-2026-09-03-15-33-59 2.mp4",
+        src: "meta/VIDEO-2026-09-03-15-33-59.mp4",
         poster: "meta/posters/video3.jpg",
         title: "Montaj gresie format mare",
         desc: "Nivelare cu clips și rosturi uniforme."
     },
     {
-        src: "meta/VIDEO-2026-09-03-15-33-53 2.mp4",
+        src: "meta/VIDEO-2026-09-03-15-33-53 3.mp4",
         poster: "meta/posters/video4.jpg",
         title: "Renovare baie",
-        desc: "Hidroizolație și placare — etapă intermediară."
+        desc: "Hidroizolație și placare - etapă intermediară."
     },
     {
-        src: "meta/VIDEO-2026-09-03-16-33-41.mp4",
+        src: "meta/VIDEO-2026-09-03-15-33-55 2.mp4",
         poster: "meta/posters/video5.jpg",
         title: "Rigips și tavan fals",
         desc: "Structură metalică și scafă cu iluminat LED."
