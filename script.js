@@ -377,7 +377,7 @@ const VIDEOS = [
         desc: "Gletuire și pregătire pereți - apartament, Iași."
     },
     {
-        src: "meta/VIDEO-2026-09-03-15-33-57 2.mp4",
+        src: "meta/new_data/115eeb50-623a-4351-ad77-9c4b5700a2a3.mov",
         poster: "meta/posters/video2.jpg",
         title: "Profesionalism garantat de o echipa serioasa",
         desc: "Echipa cu ani de experienta."
