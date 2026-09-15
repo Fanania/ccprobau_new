@@ -400,7 +400,7 @@ const VIDEOS = [
         desc: "Structură metalică și scafă cu iluminat LED."
     },
     {
-        src: "meta/loop_vid/video5.mp4",
+        src: "meta/new_data/115eeb50-623a-4351-ad77-9c4b5700a2a3.mov",
         poster: "meta/posters/video6.jpg",
         title: "Detalii de finisaj",
         desc: "Colțare, profile și racorduri executate curat."
