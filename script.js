@@ -966,7 +966,97 @@ function initPlayer() {
         });
     }
 
+/* ═══ 9. MASCOTĂ FLOTANTĂ ══════════════════════════════ */
 
+function initMascot() {
+    const wrap   = $("#mascotFloat");
+    if (!wrap) return;
+
+    const char   = $("#mascotChar");
+    const bubble = $("#mascotBubble");
+    const text   = $("#mascotText");
+    const close  = $("#mascotClose");
+
+    /* Respectă alegerea utilizatorului din sesiunea anterioară */
+    try {
+        if (sessionStorage.getItem("mascotDismissed") === "1") return;
+    } catch (e) { /* storage blocat — continuăm */ }
+
+    const MESSAGES = [
+        "Salut! Ai un proiect în minte?",
+        "Vizionarea și devizul sunt gratuite.",
+        "Peste 10 ani de experiență în Elveția.",
+        "Îți răspundem în maximum 24 de ore."
+    ];
+
+    let msgIndex = 0;
+    let greeted  = false;
+
+    wrap.hidden = false;
+
+    /* — Apariție după hero — */
+
+    const onScroll = rafThrottle(() => {
+        const past = window.scrollY > window.innerHeight * .85;
+
+        wrap.classList.toggle("is-shown", past);
+
+        /* Salut o singură dată, la prima apariție */
+        if (past && !greeted && !prefersReducedMotion) {
+            greeted = true;
+
+            window.setTimeout(() => {
+                bubble?.classList.add("is-open");
+
+                window.setTimeout(() => {
+                    bubble?.classList.remove("is-open");
+                }, 6000);
+            }, 900);
+        }
+    });
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    /* — Click pe mascotă: mesaj nou — */
+
+    char?.addEventListener("click", () => {
+        const isOpen = bubble?.classList.contains("is-open");
+
+        if (isOpen) {
+            bubble.classList.remove("is-open");
+            return;
+        }
+
+        msgIndex = (msgIndex + 1) % MESSAGES.length;
+
+        if (text) text.textContent = MESSAGES[msgIndex];
+
+        bubble?.classList.add("is-open");
+    });
+
+    /* — Închidere definitivă — */
+
+    close?.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        wrap.classList.remove("is-shown");
+
+        window.setTimeout(() => { wrap.hidden = true; }, 500);
+
+        try {
+            sessionStorage.setItem("mascotDismissed", "1");
+        } catch (err) { /* ignorăm */ }
+    });
+
+    /* — Escape închide bula — */
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") bubble?.classList.remove("is-open");
+    });
+}
+
+   
     /* ═══ PORNIRE ══════════════════════════════════════════ */
 
     function init() {
