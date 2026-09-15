@@ -2344,6 +2344,10 @@ body.is-scrolled .logo img { height: 34px; }
 
 .mascot-float__cta:hover { background: var(--accent-300); }
 
+.mascot-float[hidden] {
+    display: none !important;
+}
+
 /* Buton de închidere */
 .mascot-float__close {
     position: absolute;
