@@ -249,11 +249,11 @@
     }
 
 
-    /* ═══ 5. ÎNAINTE / DUPĂ ════════════════════════════════ */
+    /* ═══ 5. INAINTE / DUPA ════════════════════════════════ */
 
     function initBeforeAfter() {
 
-        /* — 5a. Slidere — */
+        /* — 5a. Slider — */
 
         $$("[data-ba]").forEach((wrap) => {
             const before = $(".ba__img--before", wrap);
@@ -364,322 +364,403 @@
     }
 
 
-    /* ═══ 6. PLAYER VIDEO + PLAYLIST ═══════════════════════ */
+/* ═══ 6. PLAYER VIDEO + PLAYLIST ═══════════════════════ */
 
-    /* Editează lista de mai jos ca să adaugi / scoți clipuri.
-       „poster" e opțional, dar recomandat pentru performanță. */
-    const VIDEOS = [
-        {
-            src: "meta/VIDEO-2026-09-03-15-33-13.mp4",
-            poster: "meta/posters/video1.jpg",
-            title: "Finisaje interioare",
-            desc: "Gletuire și pregătire pereți — apartament, Iași."
-        },
-        {
-            src: "meta/loop_vid/video2.mp4",
-            poster: "meta/posters/video2.jpg",
-            title: "Tencuială decorativă",
-            desc: "Aplicare microciment pe perete de accent."
-        },
-        {
-            src: "meta/VIDEO-2026-09-03-15-33-59 2.mp4",
-            poster: "meta/posters/video3.jpg",
-            title: "Montaj gresie format mare",
-            desc: "Nivelare cu clips și rosturi uniforme."
-        },
-        {
-            src: "meta/VIDEO-2026-09-03-15-33-53 2.mp4",
-            poster: "meta/posters/video4.jpg",
-            title: "Renovare baie",
-            desc: "Hidroizolație și placare — etapă intermediară."
-        },
-        {
-            src: "meta/VIDEO-2026-09-03-16-33-41.mp4",
-            poster: "meta/posters/video5.jpg",
-            title: "Rigips și tavan fals",
-            desc: "Structură metalică și scafă cu iluminat LED."
-        },
-        {
-            src: "meta/loop_vid/video5.mp4",
-            poster: "meta/posters/video6.jpg",
-            title: "Detalii de finisaj",
-            desc: "Colțare, profile și racorduri executate curat."
-        },
-        {
-            src: "meta/VIDEO-2026-09-03-15-33-58.mp4",
-            poster: "meta/posters/video7.jpg",
-            title: "Proiect finalizat",
-            desc: "Livrare la cheie — spațiu rezidențial."
-        }
-    ];
+/* Lasă array-ul gol dacă nu ai încă videoclipuri —
+   secțiunea se ascunde automat. */
+const VIDEOS = [
+    {
+        src: "meta/VIDEO-2026-09-03-15-33-13.mp4",
+        poster: "meta/posters/video1.jpg",
+        title: "Finisaje interioare",
+        desc: "Gletuire și pregătire pereți — apartament, Iași."
+    },
+    {
+        src: "meta/loop_vid/video2.mp4",
+        poster: "meta/posters/video2.jpg",
+        title: "Tencuială decorativă",
+        desc: "Aplicare microciment pe perete de accent."
+    },
+    {
+        src: "meta/VIDEO-2026-09-03-15-33-59 2.mp4",
+        poster: "meta/posters/video3.jpg",
+        title: "Montaj gresie format mare",
+        desc: "Nivelare cu clips și rosturi uniforme."
+    },
+    {
+        src: "meta/VIDEO-2026-09-03-15-33-53 2.mp4",
+        poster: "meta/posters/video4.jpg",
+        title: "Renovare baie",
+        desc: "Hidroizolație și placare — etapă intermediară."
+    },
+    {
+        src: "meta/VIDEO-2026-09-03-16-33-41.mp4",
+        poster: "meta/posters/video5.jpg",
+        title: "Rigips și tavan fals",
+        desc: "Structură metalică și scafă cu iluminat LED."
+    },
+    {
+        src: "meta/loop_vid/video5.mp4",
+        poster: "meta/posters/video6.jpg",
+        title: "Detalii de finisaj",
+        desc: "Colțare, profile și racorduri executate curat."
+    },
+    {
+        src: "meta/VIDEO-2026-09-03-15-33-58.mp4",
+        poster: "meta/posters/video7.jpg",
+        title: "Proiect finalizat",
+        desc: "Livrare la cheie — spațiu rezidențial."
+    }
+];
 
-    function initPlayer() {
-        const video    = $("#showcaseVideo");
-        const list     = $("#playlistItems");
-        const player   = video ? video.closest(".player") : null;
+function initPlayer() {
+    const video   = $("#showcaseVideo");
+    const list    = $("#playlistItems");
+    const player  = video ? video.closest(".player") : null;
+    const section = $("#video");
 
-        if (!video || !list || !player) return;
+    if (!video || !list || !player) return;
 
-        const bigPlay  = $("#playerBig");
-        const btnPlay  = $("#btnPlay");
-        const btnMute  = $("#btnMute");
-        const btnFull  = $("#btnFull");
-        const progress = $("#playerProgress");
-        const played   = $("#playerPlayed");
-        const buffer   = $("#playerBuffer");
-        const timeEl   = $("#playerTime");
-        const titleEl  = $("#playerTitle");
-        const descEl   = $("#playerDesc");
-        const autoplay = $("#autoplayToggle");
-        const frame    = $(".player__frame", player);
+    /* ── GUARD 1: fără clipuri, ascundem toată secțiunea ── */
+    if (!VIDEOS.length) {
+        if (section) section.hidden = true;
+        return;
+    }
 
-        let index = 0;
+    const bigPlay  = $("#playerBig");
+    const btnPlay  = $("#btnPlay");
+    const btnMute  = $("#btnMute");
+    const btnFull  = $("#btnFull");
+    const progress = $("#playerProgress");
+    const played   = $("#playerPlayed");
+    const buffer   = $("#playerBuffer");
+    const timeEl   = $("#playerTime");
+    const titleEl  = $("#playerTitle");
+    const descEl   = $("#playerDesc");
+    const autoplay = $("#autoplayToggle");
+    const frame    = $(".player__frame", player);
 
-        /* — Construiește playlistul — */
+    let index = 0;
 
-        VIDEOS.forEach((item, i) => {
-            const li  = document.createElement("li");
-            const btn = document.createElement("button");
+    /* ── GUARD 2: evidența clipurilor moarte ──────────── */
+    const broken = new Set();   // indexuri care au dat 404
+    let   userInitiated = false; // a apăsat utilizatorul play?
 
-            btn.type = "button";
-            btn.className = "pl-item" + (i === 0 ? " is-active" : "");
-            btn.dataset.index = String(i);
-            btn.setAttribute("aria-label", `Redă: ${item.title}`);
+    /* — Construiește playlistul — */
 
-            btn.innerHTML = `
-                <span class="pl-item__thumb">
-                    <img src="${item.poster}" alt="" loading="lazy" decoding="async">
-                </span>
-                <span class="pl-item__body">
-                    <span class="pl-item__title">${item.title}</span>
-                    <span class="pl-item__meta">${item.desc}</span>
-                </span>
-            `;
+    VIDEOS.forEach((item, i) => {
+        const li  = document.createElement("li");
+        const btn = document.createElement("button");
 
-            /* Dacă posterul lipsește, lăsăm doar fundalul */
-            const thumbImg = $("img", btn);
-            thumbImg.addEventListener("error", () => {
-                thumbImg.remove();
+        btn.type = "button";
+        btn.className = "pl-item" + (i === 0 ? " is-active" : "");
+        btn.dataset.index = String(i);
+        btn.setAttribute("aria-label", `Redă: ${item.title}`);
+
+        btn.innerHTML = `
+            <span class="pl-item__thumb"></span>
+            <span class="pl-item__body">
+                <span class="pl-item__title"></span>
+                <span class="pl-item__meta"></span>
+            </span>
+        `;
+
+        /* textContent, nu innerHTML — evită probleme cu diacritice/HTML */
+        $(".pl-item__title", btn).textContent = item.title;
+        $(".pl-item__meta",  btn).textContent = item.desc;
+
+        /* Posterul se adaugă doar dacă există cu adevărat */
+        if (item.poster) {
+            const img = new Image();
+            img.loading = "lazy";
+            img.decoding = "async";
+            img.alt = "";
+
+            img.addEventListener("load", () => {
+                $(".pl-item__thumb", btn).appendChild(img);
             }, { once: true });
 
-            btn.addEventListener("click", () => load(i, true));
-
-            li.appendChild(btn);
-            list.appendChild(li);
-        });
-
-        const items = $$(".pl-item", list);
-
-        /* — Încarcă un clip — */
-
-        function load(i, autoPlay) {
-            index = (i + VIDEOS.length) % VIDEOS.length;
-
-            const item = VIDEOS[index];
-
-            video.src = item.src;
-            video.poster = item.poster || "";
-            video.setAttribute("aria-label", item.title);
-            video.load();
-
-            if (titleEl) titleEl.textContent = item.title;
-            if (descEl)  descEl.textContent  = item.desc;
-
-            items.forEach((b, n) => {
-                b.classList.toggle("is-active", n === index);
-            });
-
-            /* Derulează elementul activ în lista vizibilă */
-            const active = items[index];
-            if (active && list.scrollHeight > list.clientHeight) {
-                active.scrollIntoView({ block: "nearest" });
-            }
-
-            if (autoPlay) play();
+            img.src = item.poster;
         }
 
-        /* — Comenzi — */
-
-        function play() {
-            const promise = video.play();
-
-            if (promise && typeof promise.catch === "function") {
-                promise.catch(() => {
-                    /* Browserul a blocat redarea — încercăm fără sunet */
-                    video.muted = true;
-                    player.classList.remove("is-unmuted");
-                    video.play().catch(() => {});
-                });
-            }
-        }
-
-        function togglePlay() {
-            video.paused ? play() : video.pause();
-        }
-
-        if (bigPlay) bigPlay.addEventListener("click", togglePlay);
-        if (btnPlay) btnPlay.addEventListener("click", togglePlay);
-
-        video.addEventListener("click", togglePlay);
-
-        video.addEventListener("play", () => {
-            player.classList.add("is-playing");
-            if (bigPlay) bigPlay.classList.add("is-hidden");
+        btn.addEventListener("click", () => {
+            userInitiated = true;
+            load(i, true);
         });
 
-        video.addEventListener("pause", () => {
-            player.classList.remove("is-playing");
-            if (bigPlay) bigPlay.classList.remove("is-hidden");
-        });
+        li.appendChild(btn);
+        list.appendChild(btn.parentNode === li ? li : li);
+    });
 
-        /* Sunet */
-        if (btnMute) {
-            btnMute.addEventListener("click", () => {
-                video.muted = !video.muted;
-                player.classList.toggle("is-unmuted", !video.muted);
+    const items = $$(".pl-item", list);
+
+    /* ── Derulare DOAR în interiorul listei, nu în pagină ── */
+    function scrollListTo(el) {
+        if (!el || list.scrollHeight <= list.clientHeight) return;
+
+        const top    = el.offsetTop;
+        const bottom = top + el.offsetHeight;
+
+        if (top < list.scrollTop) {
+            list.scrollTop = top;
+        } else if (bottom > list.scrollTop + list.clientHeight) {
+            list.scrollTop = bottom - list.clientHeight;
+        }
+    }
+
+    /* — Încarcă un clip — */
+
+    function load(i, autoPlay) {
+        index = ((i % VIDEOS.length) + VIDEOS.length) % VIDEOS.length;
+
+        const item = VIDEOS[index];
+
+        video.src = item.src;
+
+        /* Nu setăm poster gol — ar face o cerere către pagina curentă */
+        if (item.poster) {
+            video.setAttribute("poster", item.poster);
+        } else {
+            video.removeAttribute("poster");
+        }
+
+        video.setAttribute("aria-label", item.title);
+        video.load();
+
+        if (titleEl) titleEl.textContent = item.title;
+        if (descEl)  descEl.textContent  = item.desc;
+
+        items.forEach((b, n) => b.classList.toggle("is-active", n === index));
+
+        scrollListTo(items[index]);
+
+        if (autoPlay) play();
+    }
+
+    /* — Comenzi — */
+
+    function play() {
+        const promise = video.play();
+
+        if (promise && typeof promise.catch === "function") {
+            promise.catch(() => {
+                video.muted = true;
+                player.classList.remove("is-unmuted");
+                video.play().catch(() => {});
             });
         }
+    }
 
-        video.muted = true;
-        player.classList.remove("is-unmuted");
+    function togglePlay() {
+        userInitiated = true;
+        video.paused ? play() : video.pause();
+    }
 
-        /* Ecran complet */
-        if (btnFull && frame) {
-            btnFull.addEventListener("click", () => {
-                if (document.fullscreenElement) {
-                    document.exitFullscreen?.();
-                } else if (frame.requestFullscreen) {
-                    frame.requestFullscreen().catch(() => {});
-                } else if (video.webkitEnterFullscreen) {
-                    /* iOS Safari */
-                    video.webkitEnterFullscreen();
-                }
-            });
-        }
+    if (bigPlay) bigPlay.addEventListener("click", togglePlay);
+    if (btnPlay) btnPlay.addEventListener("click", togglePlay);
 
-        /* — Progres & timp — */
+    video.addEventListener("click", togglePlay);
 
-        function updateProgress() {
-            const dur = video.duration;
-            if (!Number.isFinite(dur) || dur === 0) return;
+    video.addEventListener("play", () => {
+        player.classList.add("is-playing");
+        if (bigPlay) bigPlay.classList.add("is-hidden");
+    });
 
-            const pct = (video.currentTime / dur) * 100;
+    video.addEventListener("pause", () => {
+        player.classList.remove("is-playing");
+        if (bigPlay) bigPlay.classList.remove("is-hidden");
+    });
 
-            if (played) played.style.width = `${clamp(pct, 0, 100)}%`;
-
-            if (progress) {
-                progress.setAttribute("aria-valuenow", String(Math.round(pct)));
-            }
-
-            if (timeEl) {
-                timeEl.textContent =
-                    `${formatTime(video.currentTime)} / ${formatTime(dur)}`;
-            }
-        }
-
-        video.addEventListener("timeupdate", rafThrottle(updateProgress));
-        video.addEventListener("loadedmetadata", updateProgress);
-
-        video.addEventListener("progress", () => {
-            if (!buffer || !video.buffered.length || !video.duration) return;
-
-            const end = video.buffered.end(video.buffered.length - 1);
-            buffer.style.width = `${clamp((end / video.duration) * 100, 0, 100)}%`;
+    if (btnMute) {
+        btnMute.addEventListener("click", () => {
+            video.muted = !video.muted;
+            player.classList.toggle("is-unmuted", !video.muted);
         });
+    }
 
-        /* — Căutare în bara de progres — */
+    video.muted = true;
+    player.classList.remove("is-unmuted");
+
+    if (btnFull && frame) {
+        btnFull.addEventListener("click", () => {
+            if (document.fullscreenElement) {
+                document.exitFullscreen?.();
+            } else if (frame.requestFullscreen) {
+                frame.requestFullscreen().catch(() => {});
+            } else if (video.webkitEnterFullscreen) {
+                video.webkitEnterFullscreen();
+            }
+        });
+    }
+
+    /* — Progres & timp — */
+
+    function updateProgress() {
+        const dur = video.duration;
+        if (!Number.isFinite(dur) || dur === 0) return;
+
+        const pct = (video.currentTime / dur) * 100;
+
+        if (played) played.style.width = `${clamp(pct, 0, 100)}%`;
 
         if (progress) {
-            let seeking = false;
+            progress.setAttribute("aria-valuenow", String(Math.round(pct)));
+        }
 
-            function seekFromEvent(e) {
-                const rect = progress.getBoundingClientRect();
-                if (!rect.width || !Number.isFinite(video.duration)) return;
+        if (timeEl) {
+            timeEl.textContent =
+                `${formatTime(video.currentTime)} / ${formatTime(dur)}`;
+        }
+    }
 
-                const pct = clamp((e.clientX - rect.left) / rect.width, 0, 1);
-                video.currentTime = pct * video.duration;
+    video.addEventListener("timeupdate", rafThrottle(updateProgress));
 
+    video.addEventListener("loadedmetadata", () => {
+        broken.delete(index);   // clipul e valid — îl scoatem din lista neagră
+        updateProgress();
+    });
+
+    video.addEventListener("progress", () => {
+        if (!buffer || !video.buffered.length || !video.duration) return;
+
+        const end = video.buffered.end(video.buffered.length - 1);
+        buffer.style.width = `${clamp((end / video.duration) * 100, 0, 100)}%`;
+    });
+
+    /* — Căutare în bara de progres — */
+
+    if (progress) {
+        let seeking = false;
+
+        function seekFromEvent(e) {
+            const rect = progress.getBoundingClientRect();
+            if (!rect.width || !Number.isFinite(video.duration)) return;
+
+            const pct = clamp((e.clientX - rect.left) / rect.width, 0, 1);
+            video.currentTime = pct * video.duration;
+
+            updateProgress();
+        }
+
+        progress.addEventListener("pointerdown", (e) => {
+            seeking = true;
+            progress.setPointerCapture(e.pointerId);
+            seekFromEvent(e);
+        });
+
+        progress.addEventListener("pointermove", (e) => {
+            if (seeking) seekFromEvent(e);
+        });
+
+        progress.addEventListener("pointerup",     () => { seeking = false; });
+        progress.addEventListener("pointercancel", () => { seeking = false; });
+
+        progress.addEventListener("keydown", (e) => {
+            if (!Number.isFinite(video.duration)) return;
+
+            const jump = { ArrowLeft: -5, ArrowRight: 5 };
+
+            if (e.key in jump) {
+                e.preventDefault();
+                video.currentTime = clamp(
+                    video.currentTime + jump[e.key], 0, video.duration
+                );
                 updateProgress();
             }
 
-            progress.addEventListener("pointerdown", (e) => {
-                seeking = true;
-                progress.setPointerCapture(e.pointerId);
-                seekFromEvent(e);
-            });
-
-            progress.addEventListener("pointermove", (e) => {
-                if (seeking) seekFromEvent(e);
-            });
-
-            progress.addEventListener("pointerup", () => { seeking = false; });
-            progress.addEventListener("pointercancel", () => { seeking = false; });
-
-            progress.addEventListener("keydown", (e) => {
-                if (!Number.isFinite(video.duration)) return;
-
-                const jump = { ArrowLeft: -5, ArrowRight: 5 };
-
-                if (e.key in jump) {
-                    e.preventDefault();
-                    video.currentTime = clamp(
-                        video.currentTime + jump[e.key], 0, video.duration
-                    );
-                    updateProgress();
-                }
-
-                if (e.key === " " || e.key === "Enter") {
-                    e.preventDefault();
-                    togglePlay();
-                }
-            });
-        }
-
-        /* — Clip următor / eroare — */
-
-        video.addEventListener("ended", () => {
-            if (autoplay && autoplay.checked) {
-                load(index + 1, true);
-            } else {
-                player.classList.remove("is-playing");
-                if (bigPlay) bigPlay.classList.remove("is-hidden");
+            if (e.key === " " || e.key === "Enter") {
+                e.preventDefault();
+                togglePlay();
             }
         });
-
-        video.addEventListener("error", () => {
-            console.warn("Clip indisponibil:", VIDEOS[index]?.src);
-
-            if (autoplay && autoplay.checked && VIDEOS.length > 1) {
-                load(index + 1, true);
-            }
-        });
-
-        /* — Pauză când secțiunea iese din ecran — */
-
-        if ("IntersectionObserver" in window) {
-            const io = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (!entry.isIntersecting && !video.paused) {
-                            video.pause();
-                        }
-                    });
-                },
-                { threshold: 0.25 }
-            );
-
-            io.observe(player);
-        }
-
-        document.addEventListener("visibilitychange", () => {
-            if (document.hidden && !video.paused) video.pause();
-        });
-
-        /* — Pornire — */
-
-        load(0, false);
     }
 
+    /* — Clip următor — */
+
+    video.addEventListener("ended", () => {
+        if (autoplay && autoplay.checked) {
+            goToNextPlayable();
+        } else {
+            player.classList.remove("is-playing");
+            if (bigPlay) bigPlay.classList.remove("is-hidden");
+        }
+    });
+
+    /* ── GUARD 3: eroare fără buclă infinită ──────────── */
+
+    function goToNextPlayable() {
+        /* Toate clipurile sunt moarte → oprim complet */
+        if (broken.size >= VIDEOS.length) {
+            handleAllBroken();
+            return;
+        }
+
+        let next = index;
+
+        for (let step = 1; step <= VIDEOS.length; step++) {
+            const candidate = (index + step) % VIDEOS.length;
+
+            if (!broken.has(candidate)) {
+                next = candidate;
+                break;
+            }
+        }
+
+        if (next === index) {
+            handleAllBroken();
+            return;
+        }
+
+        /* setTimeout rupe lanțul sincron eroare → load → eroare */
+        window.setTimeout(() => load(next, userInitiated), 120);
+    }
+
+    function handleAllBroken() {
+        console.warn("[CC Pro Bau] Niciun videoclip disponibil — ascund secțiunea.");
+
+        video.removeAttribute("src");
+        video.load();
+
+        if (section) section.hidden = true;
+    }
+
+    video.addEventListener("error", () => {
+        /* Ignorăm eroarea generată de golirea sursei */
+        if (!video.getAttribute("src")) return;
+
+        console.warn("Clip indisponibil:", VIDEOS[index]?.src);
+
+        broken.add(index);
+
+        /* Marcăm vizual în playlist */
+        items[index]?.classList.add("is-broken");
+        items[index]?.setAttribute("disabled", "disabled");
+
+        goToNextPlayable();
+    });
+
+    /* — Pauza când sectiunea iese din ecran — */
+
+    if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting && !video.paused) video.pause();
+                });
+            },
+            { threshold: 0.25 }
+        );
+
+        io.observe(player);
+    }
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden && !video.paused) video.pause();
+    });
+
+    /* — Pornire: doar metadate, fara redare automata — */
+    load(0, false);
+}
 
     /* ═══ 7. FORMULAR DE OFERTĂ ════════════════════════════ */
 
