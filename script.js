@@ -1068,6 +1068,7 @@ function initMascot() {
         initPlayer();
         initForm();
         initToTop();
+        initMascot();
     }
 
     document.readyState === "loading"
