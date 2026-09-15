@@ -376,10 +376,10 @@ const VIDEOS = [
         desc: "Gletuire și pregătire pereți — apartament, Iași."
     },
     {
-        src: "meta/loop_vid/video2.mp4",
+        src: "meta/VIDEO-2026-09-03-15-33-13.mp4",
         poster: "meta/posters/video2.jpg",
-        title: "Tencuială decorativă",
-        desc: "Aplicare microciment pe perete de accent."
+        title: "Profesionalism garantat de o echipa serioasa",
+        desc: "Echipa cu ani de experienta."
     },
     {
         src: "meta/VIDEO-2026-09-03-15-33-59 2.mp4",
