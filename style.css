@@ -2557,6 +2557,12 @@ body.is-scrolled .logo img { height: 34px; }
     animation: fadeIn var(--t) var(--ease);
 }
 
+.pl-item.is-broken {
+    opacity: .4;
+    pointer-events: none;
+    text-decoration: line-through;
+}
+
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 body.modal-open { overflow: hidden; }
