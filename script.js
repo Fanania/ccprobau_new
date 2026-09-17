@@ -353,8 +353,8 @@
     const VIDEOS = [
         {
             src: "meta/new_data/dd30fc3b-8e5d-49b8-87a5-ff2dd173151c.mov",
-            title: "Finisaje interioare",
-            desc: "Gletuire și pregătire pereți — apartament, Iași."
+            title: "Amenajare spatiu comercial",
+            desc: "Proiect realizat pentru o societate finantata prin fonduri europene."
         },
         {
             src: "meta/new_data/115eeb50-623a-4351-ad77-9c4b5700a2a3.mov",
@@ -363,23 +363,23 @@
         },
         {
             src: "meta/VIDEO-2026-09-03-15-33-59.mp4",
-            title: "Montaj gresie format mare",
-            desc: "Nivelare cu clips și rosturi uniforme."
+            title: "Finisaje interioare",
+            desc: "Gletuire și pregătire pereți - apartament, Iași."
         },
         {
             src: "meta/VIDEO-2026-09-03-15-33-53 3.mp4",
-            title: "Renovare baie",
+            title: "Renovare baie.",
             desc: "Hidroizolație și placare — etapă intermediară."
         },
         {
             src: "meta/VIDEO-2026-09-03-15-33-55 2.mp4",
-            title: "Rigips și tavan fals",
-            desc: "Structură metalică și scafă cu iluminat LED."
+            title: "Santier in lucru anul 2024",
+            desc: "Realizat de echipa CC Pro Bau"
         },
         {
             src: "meta/new_data/904c9639-8d82-4eec-8d1d-b504fec427e6.mov",
-            title: "Proiect finalizat",
-            desc: "Livrare la cheie — spațiu rezidențial."
+            title: "Proiect aproape de momentul finalizarii",
+            desc: "Livrare la cheie - spațiu comercial."
         }
     ];
 
