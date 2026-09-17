@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════
-   CC PRO BAU — GALLERY.JS
+   CC PRO BAU - GALERIE.JS
    Surse de date, în ordine:
-     1. meta/galerie.json   (manifest scris manual — recomandat)
+     1. meta/galerie.json   (manifest scris manual — recomandat) NAVEM!!!!!!!!!!!!
      2. GitHub API          (automat, cu cache 6h)
      3. Cache expirat       (mai bine ceva decât nimic)
    ═══════════════════════════════════════════════════════════ */
@@ -296,11 +296,6 @@
         btn.setAttribute("aria-label", `Deschide: ${item.title}`);
         btn.addEventListener("click", () => openLightbox(index));
 
-        /* Etichetă categorie */
-        const tag = document.createElement("span");
-        tag.className = "g-item__tag";
-        tag.textContent = labelFor(item.cat);
-
         /* Legendă */
         const cap = document.createElement("figcaption");
         cap.className = "g-item__cap";
@@ -315,7 +310,7 @@
             cap.appendChild(d);
         }
 
-        fig.append(media, tag, cap, btn);
+        fig.append(media, cap, btn);
         return fig;
     }
 
@@ -340,7 +335,7 @@
 
         shownItems = filter === "all"
             ? allItems
-            : allItems.filter((it) => it.cat === filter);
+            : allItems.filter((it) => it.type === filter);
 
         grid.innerHTML = "";
         rendered = 0;
