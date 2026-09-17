@@ -6,7 +6,7 @@
 (function () {
     "use strict";
 
-    /* ── Utilitare ─────────────────────────────────────── */
+    /* ──────────────────── Utilitare ──────────────────────── */
 
     const $  = (sel, ctx = document) => ctx.querySelector(sel);
     const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
@@ -413,7 +413,32 @@ const VIDEOS = [
         desc: "Livrare la cheie — spațiu rezidențial."
     }
 ];
+   
+/* Generează poster din primul cadru */
+function makePoster(video, onReady) {
+    let done = false;
 
+    const grab = () => {
+        if (done) return;
+        done = true;
+
+        try {
+            const c = document.createElement("canvas");
+            c.width  = video.videoWidth  || 640;
+            c.height = video.videoHeight || 960;
+
+            c.getContext("2d").drawImage(video, 0, 0, c.width, c.height);
+            const data = c.toDataURL("image/jpeg", 0.7);
+
+            video.poster = data;
+            if (onReady) onReady(data);
+        } catch (e) { /* ignorăm */ }
+    };
+
+    video.addEventListener("loadeddata", grab, { once: true });
+    video.addEventListener("seeked", grab, { once: true });
+}
+   
 function initPlayer() {
     const video   = $("#showcaseVideo");
     const list    = $("#playlistItems");
@@ -471,17 +496,28 @@ function initPlayer() {
         $(".pl-item__meta",  btn).textContent = item.desc;
 
         /* Posterul se adaugă doar dacă există cu adevărat */
+        /* Miniatură: din poster dacă există, altfel din video */
+        const thumbBox = $(".pl-item__thumb", btn);
+
         if (item.poster) {
             const img = new Image();
-            img.loading = "lazy";
-            img.decoding = "async";
             img.alt = "";
-
-            img.addEventListener("load", () => {
-                $(".pl-item__thumb", btn).appendChild(img);
-            }, { once: true });
-
+            img.addEventListener("load", () => thumbBox.appendChild(img), { once: true });
             img.src = item.poster;
+        } else {
+            const tmp = document.createElement("video");
+            tmp.src = item.src + "#t=0.5";
+            tmp.muted = true;
+            tmp.playsInline = true;
+            tmp.preload = "metadata";
+            tmp.crossOrigin = "anonymous";
+
+            makePoster(tmp, (data) => {
+                const img = new Image();
+                img.alt = "";
+                img.src = data;
+                thumbBox.appendChild(img);
+            });
         }
 
         btn.addEventListener("click", () => {
@@ -519,10 +555,13 @@ function initPlayer() {
         video.src = item.src;
 
         /* Nu setăm poster gol — ar face o cerere către pagina curentă */
+        video.src = item.src + "#t=0.5";
+
         if (item.poster) {
             video.setAttribute("poster", item.poster);
         } else {
             video.removeAttribute("poster");
+            makePoster(video);
         }
 
         video.setAttribute("aria-label", item.title);
