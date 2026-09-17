@@ -352,7 +352,7 @@
        Fără el, miniatura se generează automat din primul cadru. */
     const VIDEOS = [
        {
-            src: "meta/new_data/b8be93c3-fad7-46bb-818f-fed510d2e622.mov",
+            src: "meta/new_data/dd30fc3b-8e5d-49b8-87a5-ff2dd173151c.mov",
             title: "Amenajare spatiu residential",
             desc: "Lucrare de durata."
         },
