@@ -260,7 +260,28 @@
 
 
     /* ═══ 3. RANDARE ═══════════════════════════════════════ */
+  /* Generează poster din primul cadru */
+    function makePoster(video) {
+        let done = false;
 
+        const grab = () => {
+            if (done) return;
+            done = true;
+
+            try {
+                const c = document.createElement("canvas");
+                c.width  = video.videoWidth  || 640;
+                c.height = video.videoHeight || 960;
+
+                c.getContext("2d").drawImage(video, 0, 0, c.width, c.height);
+                video.poster = c.toDataURL("image/jpeg", 0.7);
+            } catch (e) { /* ignorăm */ }
+        };
+
+        video.addEventListener("loadeddata", grab, { once: true });
+        video.addEventListener("seeked", grab, { once: true });
+    }
+   
     function buildCard(item, index) {
         const fig = document.createElement("figure");
         fig.className = "g-item" +
@@ -271,13 +292,14 @@
         /* Media */
         let media;
 
-        if (item.type === "video") {
+       if (item.type === "video") {
             media = document.createElement("video");
-            media.src = item.url;
+            media.src = item.url + "#t=0.5";
             media.muted = true;
             media.playsInline = true;
             media.preload = "metadata";
             if (item.poster) media.poster = item.poster;
+            else makePoster(media);
         } else {
             media = document.createElement("img");
             media.src = item.url;
