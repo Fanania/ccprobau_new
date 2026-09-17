@@ -2389,6 +2389,10 @@ body.is-scrolled .logo img { height: 34px; }
     .mascot-float { display: none; }
 }
 
+@keyframes mascotFloat {
+    0%, 100% { transform: translateY(0)     rotate(0deg); }
+    50%      { transform: translateY(-11px) rotate(-2.5deg); }
+}
 /* ═══ 13. FOOTER & FLOTANTE ═══════════════════════════════ */
 
 .site-footer {
@@ -3339,8 +3343,9 @@ body.modal-open { overflow: hidden; }
 @media print {
     .topbar, .site-header, .fab, .to-top,
     .hero__scroll, .player, .playlist,
-    .video-modal, .ba-filters { display: none !important; }
-
+    .video-modal, .ba-filters,
+    .mascot-float, .lightbox { display: none !important; }
+   
     body { background: #fff; color: #000; }
     .section { padding-block: 1.5rem; }
     .section--dark { background: #fff !important; color: #000 !important; }
