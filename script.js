@@ -373,7 +373,7 @@
         },
         {
             src: "meta/VIDEO-2026-09-03-15-33-53 3.mp4",
-            title: "Renovare baie.",
+            title: "Gletuire",
             desc: "Gletuire și pregătire pereți - apartament, Iași."
         },
     /*    {
