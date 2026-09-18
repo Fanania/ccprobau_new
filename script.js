@@ -368,19 +368,19 @@
         },
         {
             src: "meta/VIDEO-2026-09-03-15-33-59.mp4",
-            title: "Finisaje interioare",
-            desc: "Gletuire și pregătire pereți - apartament, Iași."
+            title: "Decorativa interioara",
+            desc: ""
         },
         {
             src: "meta/VIDEO-2026-09-03-15-33-53 3.mp4",
             title: "Renovare baie.",
-            desc: "Hidroizolație și placare — etapă intermediară."
+            desc: "Gletuire și pregătire pereți - apartament, Iași."
         },
-        {
+    /*    {
             src: "meta/VIDEO-2026-09-03-15-33-55 2.mp4",
             title: "Santier in lucru anul 2024",
             desc: "Realizat de echipa CC Pro Bau"
-        },
+        }, */
         {
             src: "meta/new_data/904c9639-8d82-4eec-8d1d-b504fec427e6.mov",
             title: "Proiect aproape de momentul finalizarii",
